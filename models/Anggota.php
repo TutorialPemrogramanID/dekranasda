@@ -22,7 +22,7 @@ class Anggota extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-    public $file;
+    public $file = [];
     public static function tableName()
     {
         return 'anggota';
@@ -57,15 +57,5 @@ class Anggota extends \yii\db\ActiveRecord
             'image' => 'Image',
             'logo' => 'Logo',
         ];
-    }
-
-     public function upload()
-    {
-        if ($this->validate()) { 
-            foreach ($this->image as $file) {
-                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-            }
-            
-        }
     }
 }

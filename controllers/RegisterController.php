@@ -34,16 +34,16 @@ class RegisterController extends Controller
      * Lists all Anggota models.
      * @return mixed
      */
-    // public function actionIndex()
-    // {
-    //     $searchModel = new AnggotaSearch();
-    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    /*public function actionIndex()
+    {
+        $searchModel = new AnggotaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-    //     return $this->render('index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }*/
 
     /**
      * Displays a single Anggota model.
@@ -66,7 +66,6 @@ class RegisterController extends Controller
     {
         $model = new Anggota();
 
-        if ($model->load(Yii::$app->request->post())) {
 
 
             //upload file jika SK
@@ -76,16 +75,28 @@ class RegisterController extends Controller
              //   $model->logo =  $model->logo->baseName . '.' . $model->logo->extension;
              // }
 
-             
-              
-       
-            $model->image = UploadedFile::getInstances($model, 'image');
-            if ($model->upload()) {
-             
-  
-             $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            if ($model->load(Yii::$app->request->post())) {
+
+            $model->image = UploadedFile::getInstances($model,'image');
+
+            foreach ($model->image as $file) {
+
+                $model1 = new Anggota();
+                $file->saveAs("uploads/".$file->baseName.".".$file->extension);
+                $model1->nama = $_POST['Anggota']['nama'];
+                $model1->email = $_POST['Anggota']['email'];
+                $model1->no_tlp = $_POST['Anggota']['no_tlp'];
+                $model1->no_ktp = $_POST['Anggota']['no_ktp'];
+                $model1->wilayah = $_POST['Anggota']['wilayah'];
+                $model1->alamat = $_POST['Anggota']['alamat'];
+
+                $model1->image = $file->baseName. '.' .$file->extension;
+
+                $model1->save();
             }
+            return $this->redirect(['index']);
+         
         } else {
             return $this->render('create', [
                 'model' => $model,
