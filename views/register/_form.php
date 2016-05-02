@@ -18,7 +18,13 @@ use kartik\widgets\FileInput;
             <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'no_tlp')->textInput() ?>
-            <?= $form->field($model, 'image[]')->FileInput(['multiple' => true]) ?>
+            <?= $form->field($model, 'image[]')->widget(FileInput::classname(), [
+                'options' => 
+                        [
+                        'accept' => 'image/*',
+                        'multiple' => true,
+                        ],
+            ]); ?>
         </div>
         <div class="col-md-6">
             <?= $form->field($model, 'no_ktp')->textInput(['maxlength' => true]) ?>
