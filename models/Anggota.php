@@ -36,7 +36,7 @@ class Anggota extends \yii\db\ActiveRecord
         return [
            
             [['no_tlp'], 'integer'],
-            [['nama', 'email', 'no_ktp', 'alamat', 'wilayah'], 'string', 'max' => 255],
+            [['nama', 'email', 'no_ktp', 'alamat', 'wilayah','jenis_pendaftaran','bahan_baku','id_provinsi','id_kota','id_kecamatan'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg','maxFiles'=>0],
         ];
     }
@@ -56,6 +56,11 @@ class Anggota extends \yii\db\ActiveRecord
             'wilayah' => 'Wilayah',
             'image' => 'Image',
             'logo' => 'Logo',
+            'jenis_pendaftaran' => 'Jenis Pendaftaran',
+            'bahan_baku' => 'Bahan Baku',
+            'id_provinsi' => 'Provisi',
+            'id_kota' => 'Kabupaten / Kota',
+            'id_kecamatan' => 'Kecamatan',
         ];
     }
 }

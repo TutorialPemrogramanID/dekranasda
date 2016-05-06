@@ -18,8 +18,8 @@ class AnggotaSearch extends Anggota
     public function rules()
     {
         return [
-            [['id', 'no_tlp'], 'integer'],
-            [['nama', 'email', 'no_ktp', 'alamat', 'wilayah', 'image','logo'], 'safe'],
+            [['id', 'no_tlp','id_provinsi','id_kota','id_kecamatan'], 'integer'],
+            [['nama', 'email', 'no_ktp', 'alamat', 'wilayah', 'image','logo','jenis_pendaftaran','bahan_baku'], 'safe'],
         ];
     }
 
@@ -70,6 +70,11 @@ class AnggotaSearch extends Anggota
             ->andFilterWhere(['like', 'wilayah', $this->wilayah])
             ->andFilterWhere(['like', 'image', $this->image]);
             ->andFilterWhere(['like', 'logo', $this->logo]);
+            ->andFilterWhere(['like', 'jenis_pendaftaran', $this->jenis_pendaftaran]);
+            ->andFilterWhere(['like', 'bahan_baku', $this->bahan_baku]);
+            ->andFilterWhere(['like', 'id_provinsi', $this->id_provinsi]);
+            ->andFilterWhere(['like', 'id_kota', $this->id_kota]);
+            ->andFilterWhere(['like', 'id_kecamatan', $this->id_kecamatan]);
 
         return $dataProvider;
     }

@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use app\models\Kabupaten;
+use app\models\Kecamatan;
+use yii\web\Response;
 
 /**
  * RegisterController implements the CRUD actions for Anggota model.
@@ -84,12 +87,18 @@ class RegisterController extends Controller
 
                 $model1 = new Anggota();
                 $file->saveAs("uploads/".$file->baseName.".".$file->extension);
-                $model1->nama = $_POST['Anggota']['nama'];
-                $model1->email = $_POST['Anggota']['email'];
-                $model1->no_tlp = $_POST['Anggota']['no_tlp'];
-                $model1->no_ktp = $_POST['Anggota']['no_ktp'];
-                $model1->wilayah = $_POST['Anggota']['wilayah'];
-                $model1->alamat = $_POST['Anggota']['alamat'];
+                $model1->nama              = $_POST['Anggota']['nama'];
+                $model1->email             = $_POST['Anggota']['email'];
+                $model1->no_tlp            = $_POST['Anggota']['no_tlp'];
+                $model1->no_ktp            = $_POST['Anggota']['no_ktp'];
+                $model1->wilayah           = $_POST['Anggota']['wilayah'];
+                $model1->alamat            = $_POST['Anggota']['alamat'];
+                $model1->jenis_pendaftaran = $_POST['Anggota']['jenis_pendaftaran'];
+                $model1->bahan_baku        = $_POST['Anggota']['bahan_baku'];
+                $model1->id_provinsi       = $_POST['Anggota']['id_provinsi'];
+                $model1->id_kota           = $_POST['Anggota']['id_kota'];
+                $model1->id_kecamatan      = $_POST['Anggota']['id_kecamatan'];
+
 
                 $model1->image = $file->baseName. '.' .$file->extension;
 
@@ -151,4 +160,55 @@ class RegisterController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    //Dedrop
+    //
+    public function actionKabupaten() {
+
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $provinsi = $parents[0];
+                $out = Kabupaten::find()->where(['kode_provinsi'=>$provinsi])->select(['kode_kabupaten as id','nama_kabupaten as name'])->asArray()->all();
+                // $out   = ArrayHelper::map(Administrasiprovinsi::find()->where(['kode_regional'=>$regional])->all(), 'id','nama_provinsi');
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                // echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return ['output'=>$out, 'selected'=>''];
+            }
+        }
+        // echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+     public function actionKecamatan() {
+
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+             $ids = $_POST['depdrop_parents'];
+             $subcat_id = empty($ids[1]) ? null : $ids[1];
+            if ($subcat_id != null) {
+                $out = Kecamatan::find()->where(['kode_kabupaten'=>$subcat_id])->select(['kode_kecamatan as id','nama_kecamatan as name'])->asArray()->all();
+                // $out   = ArrayHelper::map(Administrasiprovinsi::find()->where(['kode_regional'=>$regional])->all(), 'id','nama_provinsi');
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                // echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return ['output'=>$out, 'selected'=>''];
+            }
+        }
+        // echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+
 }

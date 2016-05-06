@@ -2,38 +2,33 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\AnggotaSearch */
+/* @var $searchModel app\models\KecamatanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Anggotas';
+$this->title = 'Kecamatans';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="anggota-index">
+<div class="kecamatan-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Anggota', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Kecamatan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+<?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'nama',
-            'email:email',
-            'no_tlp',
-            'no_ktp',
-            // 'alamat',
-            // 'wilayah',
-            // 'image',
+            'kode_kecamatan',
+            'nama_kecamatan',
+            'kode_kabupaten',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-</div>
+<?php Pjax::end(); ?></div>
