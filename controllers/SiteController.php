@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\NotFoundHttpException;
+
 
 class SiteController extends Controller
 {
@@ -49,6 +51,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        throw new NotFoundHttpException('The requested page does not exist.');
         return $this->render('index');
     }
 

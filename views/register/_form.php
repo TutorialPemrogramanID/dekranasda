@@ -32,7 +32,22 @@ $provinsi            = Provinsi::find()->all();
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'no_tlp')->textInput() ?>
 
-            <?= $form->field($model, 'id_provinsi')->dropDownList(ArrayHelper::map($provinsi, 'kode_provinsi', 'nama_provinsi'), [
+            <?= $form->field($model, 'no_ktp')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'alamat')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'wilayah')->textInput(['maxlength' => true]) ?>
+            
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'jenis_pendaftaran')->widget(Select2::classname(), [
+                'data' => $status,
+                'options' => ['placeholder' => 'Select a state ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
+            
+
+             <?= $form->field($model, 'id_provinsi')->dropDownList(ArrayHelper::map($provinsi, 'kode_provinsi', 'nama_provinsi'), [
                 'prompt' => 'Pilih Provinsi',
                 'id' => 'kode_provinsi',
             ]) ?>
@@ -74,19 +89,6 @@ $provinsi            = Provinsi::find()->all();
                         'multiple' => true,
                         ],
             ]); ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'no_ktp')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'alamat')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'wilayah')->textInput(['maxlength' => true]) ?>
-             <?= $form->field($model, 'jenis_pendaftaran')->widget(Select2::classname(), [
-                'data' => $status,
-                'options' => ['placeholder' => 'Select a state ...'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]); ?>
-            <?= $form->field($model, 'wilayah')->textInput(['maxlength' => true]) ?>
            
         </div>
     </div>
